@@ -38,7 +38,6 @@ function handleKeyPress(e){
   // console.log([e.shiftKey, e.key])
   // console.log(document.getElementById(`${e.key}`).textContent)
   button = document.getElementById(`${e.key}`);
-  button.toggle( )
   if (button) button.click()
 }
 
