@@ -45,25 +45,11 @@ function handleCalculation(exp){
     let first_num ="";
     let second_num = "";
     let operator;
-    let first_met = false;
-    
-    for (let i = 0; i < exp.length;i++){
-        if ((isNumeric(exp[i]) || exp[i] == "." || exp[i] == '-' && isNumeric(exp[i+1])) && !first_met){
-            first_num += exp[i];
-        }
 
-        if (exp[i] == " " && !isNumeric(exp[i+1])){
-            first_met = true;
-        }
-
-        if ("%÷+-X".includes(exp[i])){
-            operator = exp[i];
-        }
-
-        if ((isNumeric(exp[i]) || exp[i] == "." || exp[i] == '-' && isNumeric(exp[i+1])) && first_met){
-            second_num += exp[i];
-        }
-    }
+    expression_arr = exp.split(' ');
+    first_num = expression_arr[0];
+    second_num = expression_arr[2];
+    operator = expression_arr[1];
 
     if((operator == "÷" || operator == "") && second_num == 0){
       return "Bruh"
