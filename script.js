@@ -53,6 +53,11 @@ function handleCalculation(exp){
             second_num += exp[i];
         }
     }
+
+    if((operator == "÷" || operator == "") && second_num == 0){
+      return "Bruh"
+    }
+
     decimal_count_first = countDecimals(+first_num);
     decimal_count_second = countDecimals(+second_num);
     to_fix = (decimal_count_first > decimal_count_second)? decimal_count_first: decimal_count_second;
@@ -82,7 +87,18 @@ var countDecimals = function (value) {
   return value.toString().split(".")[1].length || 0; 
 }
 
+var checkBruh = function(){
+  if (current.textContent == "Bruh"){
+    current.textContent = "";
+    expression.textContent = "";
+    return true;
+  }
+  return false;
+}
+
 function handleNum(e) {
+
+  if (checkBruh()) return;
   console.log(e.target.textContent);
   if (expression.textContent[expression.textContent.length - 1] == '='){
     expression.textContent = "";
@@ -101,12 +117,14 @@ function handleClear(e) {
 }
 
 function handleDot(e) {
+  if (checkBruh()) return;
   console.log(e.target.textContent);
   if (!(current.textContent.includes('.'))){current.textContent +="."};
 
 }
 
 function handleOperators(e) {
+  if (checkBruh()) return;
   console.log(e.target.textContent);
   if (expression.textContent == "" || expression.textContent[expression.textContent.length - 1] == "="){
     expression.textContent = current.textContent + " " + e.target.textContent;
@@ -120,12 +138,14 @@ function handleOperators(e) {
 }
 
 function handleDelete(e) {
+  if (checkBruh()) return;
   console.log(e.target.textContent);
   if (current.textContent == "0")return;
   current.textContent = current.textContent.slice(0,-1);
 }
 
 function handleEquals(e) {
+  if (checkBruh()) return;
   console.log(e.target.textContent);
   expression.textContent += " " + current.textContent + " =";
   current.textContent = handleCalculation(expression.textContent);
