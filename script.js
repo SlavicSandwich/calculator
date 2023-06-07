@@ -38,6 +38,7 @@ function handleKeyPress(e){
   // console.log([e.shiftKey, e.key])
   // console.log(document.getElementById(`${e.key}`).textContent)
   button = document.getElementById(`${e.key}`);
+  button.toggle( )
   if (button) button.click()
 }
 
@@ -47,32 +48,32 @@ function handleCalculation(exp){
     let operator;
 
     expression_arr = exp.split(' ');
-    first_num = expression_arr[0];
-    second_num = expression_arr[2];
+    first_num = +expression_arr[0];
+    second_num = +expression_arr[2];
     operator = expression_arr[1];
 
     if((operator == "÷" || operator == "") && second_num == 0){
       return "Bruh"
     }
-
+    if (isNaN(first_num) || isNaN(second_num) ) return "NaN";
     decimal_count_first = countDecimals(+first_num);
     decimal_count_second = countDecimals(+second_num);
     to_fix = (decimal_count_first > decimal_count_second)? decimal_count_first: decimal_count_second;
     switch (operator){
         case '%':{
-            return (+first_num % +second_num);
+            return (first_num % second_num);
         }
         case '÷':{
-            return (+first_num / +second_num);
+            return (first_num / second_num);
         }
         case '+':{
-            return (+first_num + +second_num).toFixed(to_fix);
+            return (first_num + second_num).toFixed(to_fix);
         }
         case '-':{
-            return (+first_num - +second_num).toFixed(to_fix);
+            return (first_num - second_num).toFixed(to_fix);
         }
         case 'X':{
-            return (+first_num * +second_num).toFixed(decimal_count_first + decimal_count_second);
+            return (first_num * second_num).toFixed(decimal_count_first + decimal_count_second);
         }
 
     }
@@ -97,12 +98,17 @@ function handleNum(e) {
 
   if (checkBruh()) return;
   // console.log(e.target.textContent);
+  if (current.textContent == "Infinity") return
   if (expression.textContent[expression.textContent.length - 1] == '='){
     expression.textContent = "";
     current.textContent = "";
   }
   if (current.textContent == "0" || "%÷+-X".includes(current.textContent)) 
     current.textContent = "";
+  if (current.textContent.length > 19){
+    current.textContent = Number(current.textContent + e.target.textContent).toExponential(2);
+    return; 
+  }
   current.textContent += e.target.textContent;
 }
 
@@ -126,9 +132,9 @@ function handleOperators(e) {
     current.textContent = "0"; 
   }
   else{
-    expression.textContent += current.textContent;
+    expression.textContent += " "+ current.textContent + " =";
     current.textContent = handleCalculation(expression.textContent);
-    expression.textContent = current + " "+ e.target.textContent;
+    // expression.textContent = current.textContent + " "+ e.target.textContent;
   }
 }
 
