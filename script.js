@@ -2,6 +2,10 @@ const buttons = document.querySelectorAll(".button");
 const current = document.querySelector('#current');
 const expression = document.querySelector('#expression')
 
+
+window.addEventListener("keydown", handleKeyPress);
+
+
 buttons.forEach((button) => {
   if (isNumeric(button.textContent)) {
     button.addEventListener("click", handleNum);
@@ -28,6 +32,13 @@ buttons.forEach((button) => {
 function isNumeric(char){
   if (char >= '0' && char <= '9') return true;
   return false;
+}
+
+function handleKeyPress(e){
+  // console.log([e.shiftKey, e.key])
+  // console.log(document.getElementById(`${e.key}`).textContent)
+  button = document.getElementById(`${e.key}`);
+  if (button) button.click()
 }
 
 function handleCalculation(exp){
@@ -82,7 +93,7 @@ function handleCalculation(exp){
 }
 
 var countDecimals = function (value) {
-  console.log(Math.floor(value));
+  // console.log(Math.floor(value));
   if(Math.floor(value) === value) return 0;
   return value.toString().split(".")[1].length || 0; 
 }
@@ -99,7 +110,7 @@ var checkBruh = function(){
 function handleNum(e) {
 
   if (checkBruh()) return;
-  console.log(e.target.textContent);
+  // console.log(e.target.textContent);
   if (expression.textContent[expression.textContent.length - 1] == '='){
     expression.textContent = "";
     current.textContent = "";
@@ -113,19 +124,17 @@ function handleClear(e) {
   console.log(e.target.textContent);
   expression.textContent = "";
   current.textContent = "0";
-  document.getElementById('dot').disabled = false;
 }
 
 function handleDot(e) {
   if (checkBruh()) return;
-  console.log(e.target.textContent);
+  // console.log(e.target.textContent);
   if (!(current.textContent.includes('.'))){current.textContent +="."};
-
 }
 
 function handleOperators(e) {
   if (checkBruh()) return;
-  console.log(e.target.textContent);
+  // console.log(e.target.textContent);
   if (expression.textContent == "" || expression.textContent[expression.textContent.length - 1] == "="){
     expression.textContent = current.textContent + " " + e.target.textContent;
     current.textContent = "0"; 
@@ -139,14 +148,14 @@ function handleOperators(e) {
 
 function handleDelete(e) {
   if (checkBruh()) return;
-  console.log(e.target.textContent);
+  // console.log(e.target.textContent);
   if (current.textContent == "0")return;
   current.textContent = current.textContent.slice(0,-1);
 }
 
 function handleEquals(e) {
   if (checkBruh()) return;
-  console.log(e.target.textContent);
+  // console.log(e.target.textContent);
   expression.textContent += " " + current.textContent + " =";
   current.textContent = handleCalculation(expression.textContent);
 }
